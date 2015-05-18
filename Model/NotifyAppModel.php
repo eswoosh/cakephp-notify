@@ -1,0 +1,2 @@
+class NotifyAppModel extends AppModel {
+}
