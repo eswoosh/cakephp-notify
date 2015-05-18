@@ -29,8 +29,16 @@ class NotificationController extends AppController {
 
 
     public function notify(/* tbc */){
-    	
-    	
+
+    	/* collate info and push to model */
+    	/* $from_id, $to_id, $url, $text = 'Click here for more info', $icon = 'flag', $colour = '#D0FDEF' */
+    	$text = "This is a notification!";
+    	$icon = "flag";
+    	$colour = "red";
+
+    	$new_notification = $this->Notification->new( $this->Auth->User('id'), $to_id, $text, $icon, $colour);
+    	pr($new_notification);
+
     }
 
 }
