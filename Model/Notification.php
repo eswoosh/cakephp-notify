@@ -10,7 +10,7 @@ class Notification extends NotifyAppModel {
 		Raise new notification
 		returns: notification ID, INT
 	*/
-	public function create($from_id, $to_id, $url, $text = 'Click here for more info', $icon = 'flag', $colour = '#D0FDEF'){
+	public function new($from_id, $to_id, $url, $text = 'Click here for more info', $icon = 'flag', $colour = '#D0FDEF'){
 
 
 		$this->Notification->create();
@@ -24,12 +24,19 @@ class Notification extends NotifyAppModel {
 		in: user_id, notification id, single (bool) (if single is false then mark all notifications READ for that user)
 		returns: BOOL (true on success)
 	*/
-	public function read($user_id,$notification_id, $single = true){
+	public function read($user_id,$notification_id, $single = true, $return_path = '/'){
+		
+
 		if($single):
 			return $this->updateAll(
 				array('Notification.read' => true),
 				array('Notification.user_id' => $user_id, 'Notification.id' => $notification_id)
 			);
+
+		/* get info about this notification */
+		$notification_info = $this->Notification->find('first', array('Notification.id' => $notification_id));
+		$return_path = $notification_info['url'];
+
 		else:
 			/*mark all of this users notifications as read*/
 			return $this->updateAll(
@@ -37,6 +44,15 @@ class Notification extends NotifyAppModel {
 				array('Notification.user_id' => $user_id)
 			);
 		endif;
+
+
+		
+		
+
+		/* check this works! */
+		$this->redirect($return_path);
+
+
 	}
 
 
